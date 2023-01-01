@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main :key="componentKey">
     <!-- Introduction -->
     <section class="mb-8 py-20 text-white text-center relative">
       <div
@@ -48,6 +48,8 @@
 <script>
 import { songsCollection } from "../includes/firebase";
 import SongItemVue from "../components/SongItem.vue";
+import { ref } from "vue";
+const componentKey = ref(0);
 
 export default {
   name: "Home",
@@ -55,13 +57,13 @@ export default {
   data() {
     return {
       songs: [],
-      maxPerPage: 3,
+      maxPerPage: 10,
       pendingRequest: false,
     };
   },
   async created() {
+    componentKey.value += 1;
     this.getSongs();
-
     window.addEventListener("scroll", this.handleScroll);
   },
   beforeUnmount() {
